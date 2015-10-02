@@ -63,6 +63,23 @@ if ROSE_BUILD_PROJECTS_DIRECTORY_SUPPORT
 endif
 	cp rosePublicConfig.h $(pkgincludedir)
 
+install-redistributable-core:
+	$(MAKE) LDFLAGS="-static -all-static" core
+	$(MAKE) LDFLAGS="-static -all-static" rosePublicConfig.h
+	$(MAKE) LDFLAGS="-static -all-static" install-data-local
+	$(MAKE) LDFLAGS="-static -all-static" install -C $(top_builddir)/src
+	cp rosePublicConfig.h $(pkgincludedir)
+	cp $(JAVA_PATH)/jre/lib/amd64/server/libjvm.so $(libdir)
+	mkdir -p $(libdir)/boost
+	cp $(BOOST_DATE_TIME_LIB) $(libdir)/boost
+	cp $(BOOST_FILESYSTEM_LIB) $(libdir)/boost
+	cp $(BOOST_IOSTREAMS_LIB) $(libdir)/boost
+	cp $(BOOST_PROGRAM_OPTIONS_LIB) $(libdir)/boost
+	cp $(BOOST_REGEX_LIB) $(libdir)/boost
+	cp $(BOOST_SYSTEM_LIB) $(libdir)/boost
+	cp $(BOOST_THREAD_LIB) $(libdir)/boost
+	cp $(BOOST_WAVE_LIB) $(libdir)/boost
+
 install-compass: install-core
 	$(MAKE) -C $(top_builddir)/projects/compass
 	$(MAKE) install -C $(top_builddir)/projects/compass
