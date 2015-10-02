@@ -36,8 +36,6 @@ dnl  ===========================================================================
 dnl   The following tests check prerequisites for binary analysis in librose.
 dnl  ==================================================================================
 
-# Boost iostreams library is required
-AX_BOOST_IOSTREAMS
 if test "$support_binaries_frontend" == "yes" -a "$link_iostreams" != "yes"; then
     binary_support_requires(
         [the Boost iostreams library],
