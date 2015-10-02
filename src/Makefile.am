@@ -179,7 +179,6 @@ pkginclude_HEADERS = \
 # bin_PROGRAMS = testSharedRoseLib # testMultiRoseLib
 noinst_PROGRAMS = testSharedRoseLib 
 all-local: testSharedRoseLib$(EXEEXT) 
-	@$(top_srcdir)/scripts/check_boost_linkage.sh .libs/testSharedRoseLib >&2
 	@echo "[INFO] Testing whether a simple program linked with ROSE can be run (a warning will be issued because the translator is being run without an input file):" >&2
 	@./testSharedRoseLib$(EXEEXT) || (echo "[ERROR] You cannot run a program linked with ROSE. Please be sure that your LD_LIBRARY_PATH (Linux) or DYLD_LIBRARY_PATH (Mac OSX) contains the correct libraries (JVM, Boost, librose.so, etc.)." >&2; exit 1)
 	@echo "[INFO] Success!"

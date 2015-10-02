@@ -154,6 +154,17 @@ AX_BOOST_PROGRAM_OPTIONS
 AX_BOOST_SYSTEM
 AX_BOOST_FILESYSTEM
 AX_BOOST_WAVE
+# Boost iostreams library is required by support-binary.m4
+AX_BOOST_IOSTREAMS
+
+BOOST_DATE_TIME_LIB="${ac_boost_lib_path}/`echo ${BOOST_DATE_TIME_LIB}| sed 's/-l\(.*\)\$/lib\1.a/'`"
+BOOST_FILESYSTEM_LIB="${ac_boost_lib_path}/`echo ${BOOST_FILESYSTEM_LIB}| sed 's/-l\(.*\)$/lib\1.a/'`"
+BOOST_IOSTREAMS_LIB="${ac_boost_lib_path}/`echo ${BOOST_IOSTREAMS_LIB}| sed 's/-l\(.*\)$/lib\1.a/'`"
+BOOST_PROGRAM_OPTIONS_LIB="${ac_boost_lib_path}/`echo ${BOOST_PROGRAM_OPTIONS_LIB}| sed 's/-l\(.*\)$/lib\1.a/'`"
+BOOST_REGEX_LIB="${ac_boost_lib_path}/`echo ${BOOST_REGEX_LIB}| sed 's/-l\(.*\)$/lib\1.a/'`"
+BOOST_SYSTEM_LIB="${ac_boost_lib_path}/`echo ${BOOST_SYSTEM_LIB}| sed 's/-l\(.*\)$/lib\1.a/'`"
+BOOST_THREAD_LIB="${ac_boost_lib_path}/`echo ${BOOST_THREAD_LIB}| sed 's/-l\(.*\)$/lib\1.a/'`"
+BOOST_WAVE_LIB="${ac_boost_lib_path}/`echo ${BOOST_WAVE_LIB}| sed 's/-l\(.*\)$/lib\1.a/'`"
 
 # AM_CONDITIONAL(ROSE_USE_BOOST_WAVE,test "$with_wave" = true)
 

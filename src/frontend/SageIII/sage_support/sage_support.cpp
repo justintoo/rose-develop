@@ -539,6 +539,13 @@ bool roseInstallPrefix(std::string& result) {
     #endif
 
     free(libroseName);
+
+    char* env__rose_home = getenv("ROSE_HOME");
+    if (env__rose_home != NULL) {
+        result = std::string(env__rose_home);
+        return true;
+    }
+
 // Liao, 12/2/2009
 // Check the librose's parent directory name to tell if it is within a build or installation tree
 // This if statement has the assumption that libtool is used to build librose so librose.so is put under .libs
