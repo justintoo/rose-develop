@@ -4,6 +4,8 @@ dnl    https://projects.coin-or.org/BuildTools/wiki/user-configure
 AC_INIT([ROSE], [0.9.6a])
 AC_PREREQ([2.59])
 
+ROSE_MAILING_LIST="rose-public@nersc.gov"
+
 dnl +--------------------------------------------------------------------------+
 dnl | Utilities
 dnl +--------------------------------------------------------------------------+

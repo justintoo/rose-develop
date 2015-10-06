@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ##!/bin/sh -vx
 ######################################################################################
 # Author:             Bobby Philip                                                   #
@@ -277,32 +277,32 @@ sh "$roseHome/config/get_compiler_header_dirs" "$1" | while read dirName
 # echo "Copying ($roseHome/config/rose_edg_required_macros_and_functions.h) to ($target_parent_dir) ..."
 # cp $roseHome/config/rose_edg_required_macros_and_functions.h $target_parent_dir
 
-# DQ (6/27/2006): We really should verify that "/usr/include/sys/cdefs.h" exists since we reference it explicitly 
-# in the ROSE specific generated "sys/cdefs.h" header file.
-if [ -f /usr/include/sys/cdefs.h ]
-then
-    echo "Verified \"/usr/include/sys/cdefs.h\" exists ... (referenced by ROSE specific \"sys/cdefs.h\" header file)"
- else
-    echo "ERROR: Could not find \"/usr/include/sys/cdefs.h\" system header file ... (referenced by ROSE specific \"sys/cdefs.h\" header file)"
-    exit 5
-fi
-
-# DQ (1/14/2007): The variable target_parent_dir is not set in this shell procedure, so it causes an error.
-system_headers_directory="$mainTargetDir/hdrs"
-echo "system_headers_directory = $system_headers_directory should be used instead of target_parent_dir = $target_parent_dir"
-
-# echo "Exiting as a test! calling exit 1"
-# exit 1
-
+#------------------------------------------------------------------------------
+# sys/cdefs.h
+#------------------------------------------------------------------------------
 # DQ (6/27/2006): Copy a ROSE specific version of cdefs.h to $target_parent_dir/sys so that the "__flexarr"
 # macro can be redefined so that Red Hat 7.3 will not require variable length arrays in definition of
 # "struct __gconv_info __cd;" in "/usr/include/_G_config.h".  This is a common problem since C does not
 # support this (gnu does however as an extension).  This is a problem for EDG and we fix it this way.
 
+    echo "Verified \"/usr/include/sys/cdefs.h\" exists ... (referenced by ROSE specific \"sys/cdefs.h\" header file)"
+
+# DQ (1/14/2007): The variable target_parent_dir is not set in this shell procedure, so it causes an error.
+system_headers_directory="$mainTargetDir/hdrs"
+echo "system_headers_directory = $system_headers_directory should be used instead of target_parent_dir = $target_parent_dir"
+
 echo "Copying $roseHome/config/rose_specific_cdefs.h to $system_headers_directory/sys to fix __gconv_info incomplete definition problem ..."
 mkdir -p "$system_headers_directory/sys"
-# cp $roseHome/config/rose_specific_cdefs.h $target_parent_dir/sys/cdefs.h
-cp "$roseHome/config/rose_specific_cdefs.h" "$system_headers_directory/sys/cdefs.h"
+if [ -f "/usr/include/sys/cdefs.h" ]; then
+    cat "$roseHome/config/rose_specific_cdefs.h" | sed 's/__CDEFS_H__/"\/usr\/include\/sys\/cdefs.h"/' > "$system_headers_directory/sys/cdefs.h"
+elif [ -f "/usr/include/x86_64-linux-gnu/sys/cdefs.h" ]; then
+    cat "$roseHome/config/rose_specific_cdefs.h" | sed 's/__CDEFS_H__/"\/usr\/include\/sys\/cdefs.h"/' > "$system_headers_directory/sys/cdefs.h"
+else
+    echo "[FATAL] Could not locate /usr/include/*/sys/cdefs.h referenced by rose/config/rose_specific_cdefs.h."
+    echo ""
+    echo "[FATAL] Please report this error to rose-public@nersc.gov"
+    exit 1
+fi
 
 error_code=$?
 if test $error_code != 0; then
@@ -310,6 +310,9 @@ if test $error_code != 0; then
      exit 1
 fi
 
+#------------------------------------------------------------------------------
+#
+#------------------------------------------------------------------------------
 if [ is_C_compiler = "yes" ]
 then
     echo "We are handling C compiler specific details, so copy the ROSE specific fix for complex.h to $system_headers_directory" >&2
