@@ -17,7 +17,7 @@
    #undef __attribute_malloc__
 #endif
 
-#include "/usr/include/sys/cdefs.h"
+#include __CDEFS_H__
 
 /* Define __flexarr to not require use of Variable Length Array (VLA) feature. */
 #undef __flexarr
