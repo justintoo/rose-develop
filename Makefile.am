@@ -69,13 +69,13 @@ install-redistributable-core:
 	$(MAKE) LDFLAGS="-static -all-static" install-data-local
 	$(MAKE) LDFLAGS="-static -all-static" install -C $(top_builddir)/src
 	cp rosePublicConfig.h $(pkgincludedir)
-	#-------------------------------------------------------------------
-	# Install libjvm.so
-	#-------------------------------------------------------------------
+	: -------------------------------------------------------------------
+	:  Install libjvm.so
+	: -------------------------------------------------------------------
 	cp $(JAVA_PATH)/jre/lib/amd64/server/libjvm.so $(libdir)
-	#-------------------------------------------------------------------
-	# Install Boost headers and libraries
-	#-------------------------------------------------------------------
+	: -------------------------------------------------------------------
+	:  Install Boost headers and libraries
+	: -------------------------------------------------------------------
 	mkdir -p $(libdir)/boost
 	cp -r $(ac_boost_path)/include/boost $(includedir)
 	cp $(BOOST_DATE_TIME_LIB) $(libdir)/boost
