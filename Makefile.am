@@ -65,12 +65,14 @@ if ROSE_BUILD_PROJECTS_DIRECTORY_SUPPORT
 endif
 	cp rosePublicConfig.h $(pkgincludedir)
 
-install-redistributable-core:
+install-static:
 	$(MAKE) LDFLAGS="-static -all-static" core
 	$(MAKE) LDFLAGS="-static -all-static" rosePublicConfig.h
 	$(MAKE) LDFLAGS="-static -all-static" install-data-local
 	$(MAKE) LDFLAGS="-static -all-static" install -C $(top_builddir)/src
 	cp rosePublicConfig.h $(pkgincludedir)
+
+install-redistributable-core: install-static
 	: -------------------------------------------------------------------
 	:  Install libjvm.so
 	: -------------------------------------------------------------------
