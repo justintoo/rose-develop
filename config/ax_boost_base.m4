@@ -15,7 +15,7 @@
 #
 #   This macro calls:
 #
-#     AC_SUBST(BOOST_CPPFLAGS) / AC_SUBST(BOOST_LDFLAGS)
+#     AC_SUBST(BOOST_CPPFLAGS) / AC_SUBST(BOOST_LDFLAGS) / AC_SUBST(BOOST_PREFIX)
 #
 #   And sets:
 #
@@ -57,12 +57,12 @@ AC_ARG_WITH([boost-libdir],
         [
         if test -d $withval
         then
-                ac_boost_lib_path="$withval"
+                BOOST_PREFIX="$withval"
         else
                 AC_MSG_ERROR(--with-boost-libdir expected directory name)
         fi
         ],
-        [ac_boost_lib_path=""]
+        [BOOST_PREFIX=""]
 )
 
 if test "x$want_boost" = "xyes"; then
@@ -130,8 +130,8 @@ if test "x$want_boost" = "xyes"; then
 
     dnl overwrite ld flags if we have required special directory with
     dnl --with-boost-libdir parameter
-    if test "$ac_boost_lib_path" != ""; then
-       BOOST_LDFLAGS="-L$ac_boost_lib_path"
+    if test "$BOOST_PREFIX" != ""; then
+       BOOST_LDFLAGS="-L$BOOST_PREFIX"
     fi
 
 	CPPFLAGS_SAVED="$CPPFLAGS"
@@ -193,7 +193,7 @@ if test "x$want_boost" = "xyes"; then
 
 			VERSION_UNDERSCORE=`echo $_version | sed 's/\./_/'`
 			BOOST_CPPFLAGS="-I$best_path/include/boost-$VERSION_UNDERSCORE"
-            if test "$ac_boost_lib_path" = ""
+            if test "$BOOST_PREFIX" = ""
             then
                BOOST_LDFLAGS="-L$best_path/lib"
             fi
@@ -204,7 +204,7 @@ if test "x$want_boost" = "xyes"; then
 					stage_version=`echo $version_dir | sed 's/boost_//' | sed 's/_/./g'`
 			        	stage_version_shorten=`expr $stage_version : '\([[0-9]]*\.[[0-9]]*\)'`
 					V_CHECK=`expr $stage_version_shorten \>\= $_version`
-                    if test "$V_CHECK" = "1" -a "$ac_boost_lib_path" = "" ; then
+                    if test "$V_CHECK" = "1" -a "$BOOST_PREFIX" = "" ; then
 						AC_MSG_NOTICE(We will use a staged boost library from $BOOST_ROOT)
 						BOOST_CPPFLAGS="-I$BOOST_ROOT"
 						BOOST_LDFLAGS="-L$BOOST_ROOT/stage/lib"
@@ -288,8 +288,10 @@ else
    ROSE_BOOST_NORMAL_INCLUDE_PATH="-I$ROSE_BOOST_INCLUDE_PATH"
 fi
 
+BOOST_PREFIX="${ac_boost_path}"
+
 AC_SUBST(ROSE_BOOST_PREINCLUDE_PATH)
 AC_SUBST(ROSE_BOOST_NORMAL_INCLUDE_PATH)
-
+AC_SUBST(BOOST_PREFIX)
 
 ])
